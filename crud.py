@@ -24,7 +24,7 @@ async def create_vehicle(data: Vehicle):
     return str(vehicle.inserted_id)
 
 #GET: Función para obtener todos los vehículos
-async def get_vehicle():
+async def get_vehicles():
     vehicles = []
     async for vehicle in vehiculos_collection.find():
         vehicles.append(vehicle_serializer(vehicle))

@@ -15,7 +15,7 @@ async def create_vehicle(vehicle: Vehicle):
 #Ruta GET: Obtener todos los vehículos
 @router.get("/")
 async def get_vehicles():
-    return await crud.get_vehicle()
+    return await crud.get_vehicles()
 
 #Ruta GET: Obtener un vehículo por su ID
 @router.get("/{id}")
