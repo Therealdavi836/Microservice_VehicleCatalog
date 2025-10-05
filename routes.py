@@ -3,13 +3,26 @@
 from fastapi import APIRouter, HTTPException
 from .models import Vehicle
 from . import crud
+import requests
 
 router = APIRouter(prefix="/vehicles", tags=["Vehicles"])
 
-#Ruta POST: Crear un nuevo vehículo
+# Ruta POST: Crear un nuevo vehículo
 @router.post("/")
 async def create_vehicle(vehicle: Vehicle):
     id = await crud.create_vehicle(vehicle)
+
+    # Notificar al servicio de notificaciones
+    try:
+        requests.post("http://127.0.0.1:8003/api/notifications/", json={
+            "user_id": 1,  # o ID del admin
+            "title": "Nuevo vehículo agregado",
+            "message": f"El vehículo {vehicle.brand} {vehicle.model} ha sido añadido al catálogo.",
+            "type": "info"
+        })
+    except:
+        pass  # Ignora el error si el microservicio de notificaciones no está disponible
+
     return {"id": id}
 
 #Ruta GET: Obtener todos los vehículos
