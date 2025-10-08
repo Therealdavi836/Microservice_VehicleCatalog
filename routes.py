@@ -47,6 +47,16 @@ async def update_vehicle(id: str, vehicle: Vehicle):
         return updated_vehicle
     elif not updated_vehicle:
         raise HTTPException(status_code=404, detail="Vehiculo no encontrado")
+    # Notificar al servicio de notificaciones
+    try:
+        requests.post("http://127.0.0.1:8003/api/notifications/", json={
+            "user_id": 1,  # o ID del admin
+            "title": "Vehículo modificado",
+            "message": f"El vehículo {vehicle.brand} {vehicle.model} ha sido modificado.",
+            "type": "info"
+        })
+    except:
+        pass  # Ignora el error si el microservicio de notificaciones no está disponible
 
 #Ruta DELETE: Eliminar un vehículo por su ID
 @router.delete("/{id}")
@@ -56,3 +66,13 @@ async def delete_vehicle(id: str):
         return {"message": "Vehiculo eliminado"}
     elif not result:
         raise HTTPException(status_code=404, detail="Vehiculo no encontrado")
+    # Notificar al servicio de notificaciones
+    try:
+        requests.post("http://127.0.0.1:8003/api/notifications/", json={
+            "user_id": 1,  # o ID del admin
+            "title": "Vehículo modificado",
+            "message": f"El vehículo {result.brand} {result.model} ha sido modificado.",
+            "type": "warning"
+        })
+    except:
+        pass  # Ignora el error si el microservicio de notificaciones no está disponible
