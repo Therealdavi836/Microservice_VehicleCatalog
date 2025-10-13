@@ -194,7 +194,7 @@ Se realizaron pruebas de **carga y capacidad** con **Locust**, cuyos archivos se
 
 ### Licencia
 
-MIT (heredada de la plantilla base de Laravel).
+MIT.
 
 ---
 
